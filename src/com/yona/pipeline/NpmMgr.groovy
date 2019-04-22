@@ -9,16 +9,17 @@ class NpmMgr implements Serializable {
     private def npmPublishRegistry
     private def buildVersion
 
-    NpmMgr(def script, def steps , def buildVersion) {
+    NpmMgr(def script, def steps , def buildVersion , def registry = "https://registry.npmjs.org/") {
         this.script = script
         this.steps = steps
         this.buildVersion = buildVersion
+        this.npmDownloadRegistry = registry
     }
 
     public npmInstall() {
         this.script.echo "Install npm modules from registry: ${this.npmDownloadRegistry}"
         this.script.sh returnStdout: true, script: """
-        npm install
+        npm install --registry ${this.npmDownloadRegistry}
         """        	
     }
     
